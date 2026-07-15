@@ -87,10 +87,11 @@ RUN groupadd -g ${HOST_GID} appuser \
 COPY php/php.ini /usr/local/etc/php/conf.d/zz-bitrix.ini
 COPY php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-RUN mkdir -p /var/www/html \
-    && chown -R appuser:appuser /var/www/html \
+RUN mkdir -p /var/www \
+    && chown -R appuser:appuser /var/www \
     && chown -R appuser:appuser /usr/local/etc/php/ \
-    && chmod -R 644 /usr/local/etc/php/conf.d/ \
+    && find /usr/local/etc/php/conf.d/ -type d -exec chmod 755 {} + \
+    && find /usr/local/etc/php/conf.d/ -type f -exec chmod 644 {} + \
     && mkdir -p /var/run/php \
     && chown appuser:appuser /var/run/php \
     && mkdir -p /tmp/bitrix_cache \
@@ -101,7 +102,7 @@ RUN find /usr/local/bin/docker-php* -type f -exec strip --strip-unneeded {} + 2>
 
 USER appuser
 
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 EXPOSE 9000
 
