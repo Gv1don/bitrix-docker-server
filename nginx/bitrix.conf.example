@@ -6,7 +6,7 @@ server {
     listen 80;
     server_name _;
 
-    root /var/www/PROJECT_DIR;
+    root /var/www/html/PROJECT_DIR;
     index index.php index.html bitrixsetup.php;
     charset utf-8;
 
@@ -124,7 +124,7 @@ server {
 #
 #     add_header Strict-Transport-Security "max-age=63072000" always;
 #
-#     root /var/www/PROJECT_DIR;
+#     root /var/www/html/PROJECT_DIR;
 #     index index.php index.html;
 #     charset utf-8;
 #
