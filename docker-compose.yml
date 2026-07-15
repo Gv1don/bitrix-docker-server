@@ -10,7 +10,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/bitrix.conf:/etc/nginx/conf.d/default.conf:ro
       - ./certs:/etc/nginx/certs:ro
-      - ./www:/var/www/html:ro
+      - ./www:/var/www:ro
     depends_on:
       - php
     logging:
@@ -32,7 +32,7 @@ services:
     container_name: bitrix-php
     restart: unless-stopped
     volumes:
-      - ./www:/var/www/html
+      - ./www:/var/www
     expose:
       - "9000"
     depends_on:

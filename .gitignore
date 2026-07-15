@@ -4,3 +4,9 @@
 certs/
 www/*
 !www/.gitkeep
+nginx/*.conf
+!nginx/*.conf.example
+php/*.ini
+!php/*.ini.example
+mysql/conf.d/*.cnf
+!mysql/conf.d/*.cnf.example

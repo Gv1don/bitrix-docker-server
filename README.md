@@ -5,11 +5,17 @@
 ## Быстрый старт
 
 ```bash
-# 1. Клонируйте файлы конфигурации в проект
+# 1. Скопируйте шаблоны конфигурационных файлов
 cp .env.example .env
+cp nginx/nginx.conf.example nginx/nginx.conf
+cp nginx/bitrix.conf.example nginx/bitrix.conf
+cp php/php.ini.example php/php.ini
+cp php/opcache.ini.example php/opcache.ini
+cp mysql/conf.d/bitrix.cnf.example mysql/conf.d/bitrix.cnf
 
-# 2. Отредактируйте .env (пароли, имя БД)
-nano .env
+# 2. Отредактируйте конфигурацию под свой проект
+nano .env                                    # пароли, имя БД
+nano nginx/bitrix.conf                       # root — путь к проекту в www/
 
 # 3. Соберите и запустите
 docker compose build
@@ -21,7 +27,21 @@ docker compose ps
 
 После запуска сайт будет доступен на `http://localhost`.
 
-Файлы Bitrix поместите в папку `web/`.
+Файлы Bitrix размещаются в папке `www/` (каждый проект — отдельная подпапка).
+
+### Выбор проекта
+
+Проект выбирается директивой `root` в `nginx/bitrix.conf`:
+
+```nginx
+root /var/www/myproject.ru;
+```
+
+Для смены проекта достаточно изменить эту строку и перезапустить nginx:
+
+```bash
+docker compose restart nginx
+```
 
 ## Структура проекта
 
@@ -32,17 +52,20 @@ docker compose ps
 ├── .dockerignore           # Исключения из контекста сборки
 ├── .env.example            # Шаблон переменных окружения
 ├── nginx/
-│   ├── nginx.conf          # Основной конфигурационный файл nginx
-│   └── bitrix.conf         # Конфигурация виртуального хоста для Bitrix
+│   ├── nginx.conf.example  # Шаблон основного конфига nginx
+│   └── bitrix.conf.example # Шаблон виртуального хоста для Bitrix
 ├── php/
-│   ├── php.ini             # Настройки PHP (лимиты, сессии, безопасность)
-│   └── opcache.ini         # Настройки OPcache и JIT
+│   ├── php.ini.example     # Шаблон настроек PHP
+│   └── opcache.ini.example # Шаблон настроек OPcache
 ├── mysql/
 │   └── conf.d/
-│       └── bitrix.cnf      # Оптимизированные настройки MySQL/Percona
-├── web/                    # Документ-корень (сюда размещается Bitrix)
+│       └── bitrix.cnf.example # Шаблон настроек MySQL/Percona
+├── www/                    # Документ-корень (git-репозитории с Bitrix)
 └── certs/                  # SSL-сертификаты (fullchain.pem, privkey.pem)
 ```
+
+> **Примечание:** Конфигурационные файлы (`.conf`, `.ini`, `.cnf`) не хранятся в git.
+> При первом запуске скопируйте шаблоны (`.example`) в рабочие файлы.
 
 ## Сервисы
 
@@ -282,7 +305,7 @@ docker compose logs mysql | grep "ready for connections"
 ### Нехватка прав на файлы
 
 ```bash
-# Исправьте права на директорию web
+# Исправьте права на директорию www
 docker compose exec php chown -R appuser:appuser /var/www/html
 ```
 
