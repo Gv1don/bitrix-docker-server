@@ -93,3 +93,6 @@ expose_php = Off
 ; Security: session
 session.cookie_httponly = 1
 session.cookie_samesite = Lax
+
+; Memcached session handler: disable locking to prevent "Could not start session" on concurrent requests
+memcached.sess_locking = Off
