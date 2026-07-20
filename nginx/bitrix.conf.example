@@ -52,7 +52,7 @@ server {
     }
 
     location @bitrix {
-        rewrite ^/bitrix/urlrewrite.php$is_args$args last;
+        rewrite ^ /bitrix/urlrewrite.php$is_args$args last;
     }
 
     # PHP processing
