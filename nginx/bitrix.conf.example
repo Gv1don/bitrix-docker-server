@@ -19,7 +19,6 @@ server {
     # Block sensitive directories
     location ~* /bitrix/modules { deny all; }
     location ~* /bitrix/php_interface { deny all; }
-    location ~* /bitrix/tools { deny all; }
     location ~* /bitrix/backup { deny all; }
     location ~* /bitrix/stack_cache { deny all; }
     location ~* /bitrix/managed_cache { deny all; }
